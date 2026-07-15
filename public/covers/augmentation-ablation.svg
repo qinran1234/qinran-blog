@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" role="img" aria-labelledby="title desc">
+  <title id="title">数据增强消融演示矩阵</title><desc id="desc">不同颜色的方格与方向箭头组成的原创抽象图形</desc>
+  <rect width="1200" height="640" fill="#efe5dc"/><g transform="translate(96 104)">
+    <g fill="#d45d45"><rect width="176" height="176"/><rect x="408" width="176" height="176" opacity=".62"/><rect x="816" width="176" height="176" opacity=".32"/></g>
+    <g fill="#166b62"><rect y="248" width="176" height="176" opacity=".36"/><rect x="408" y="248" width="176" height="176" opacity=".7"/><rect x="816" y="248" width="176" height="176"/></g>
+    <g stroke="#243934" stroke-width="10" fill="none"><path d="M214 88h142m-32-30 32 30-32 30"/><path d="M622 88h142m-32-30 32 30-32 30"/><path d="M88 206v-1m408 1v-1m408 1v-1"/></g>
+  </g><text x="96" y="582" fill="#3f312d" font-family="system-ui" font-size="38">CONTROLLED CHANGE / DEMO</text>
+</svg>

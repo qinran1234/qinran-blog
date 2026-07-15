@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" role="img" aria-labelledby="title desc">
+  <title id="title">周日桌面重启封面</title><desc id="desc">茶杯、窗口和落日组成的原创桌面插画</desc>
+  <rect width="1200" height="640" fill="#f2ebc9"/>
+  <circle cx="930" cy="160" r="95" fill="#ef8a63"/>
+  <path d="M0 470c220-100 410 5 620-70s390-45 580 35v205H0z" fill="#bedfd4"/>
+  <g transform="translate(145 105)"><rect width="560" height="330" rx="18" fill="#fffaf3" stroke="#263c37" stroke-width="9"/><path d="M0 76h560" stroke="#263c37" stroke-width="9"/><circle cx="40" cy="38" r="12" fill="#e16d57"/><circle cx="78" cy="38" r="12" fill="#e7c84f"/><circle cx="116" cy="38" r="12" fill="#56a898"/><path d="M65 140h290M65 205h390M65 270h230" stroke="#a7b7b2" stroke-width="14" stroke-linecap="round"/></g>
+  <g transform="translate(760 350)"><path d="M0 0h180v130H0z" fill="#fffaf3" stroke="#263c37" stroke-width="9"/><path d="M180 26h34c55 0 55 80 0 80h-34" fill="none" stroke="#263c37" stroke-width="9"/><path d="M45-35c-35-50 40-55 6-105M105-35c-35-50 40-55 6-105" fill="none" stroke="#e16d57" stroke-width="9" stroke-linecap="round"/></g>
+</svg>

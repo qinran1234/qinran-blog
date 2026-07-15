@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" role="img" aria-labelledby="title desc">
+  <title id="title">基线实验演示信号图</title><desc id="desc">网格、节点和折线组成的原创抽象图形</desc>
+  <rect width="1200" height="640" fill="#dce7e1"/><path d="M0 520h1200M0 400h1200M0 280h1200M0 160h1200M180 0v640M420 0v640M660 0v640M900 0v640" stroke="#b8cbc2" stroke-width="2"/>
+  <path d="M90 494 270 420 456 450 642 292 840 334 1092 136" fill="none" stroke="#145f57" stroke-width="12"/>
+  <g fill="#f8f5ef" stroke="#145f57" stroke-width="8"><circle cx="90" cy="494" r="18"/><circle cx="270" cy="420" r="18"/><circle cx="456" cy="450" r="18"/><circle cx="642" cy="292" r="18"/><circle cx="840" cy="334" r="18"/><circle cx="1092" cy="136" r="18"/></g>
+  <text x="72" y="92" fill="#18302b" font-family="system-ui" font-size="42">DEMO / BASELINE SIGNAL</text>
+</svg>

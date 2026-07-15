@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" role="img" aria-labelledby="title desc">
+  <title id="title">公开笔记封面</title><desc id="desc">纸页、星星和连接线组成的原创涂鸦插画</desc>
+  <rect width="1200" height="640" fill="#f3e6df"/>
+  <path d="M0 520c190-80 300 30 470-18s320-150 730-42v180H0z" fill="#d8ece4"/>
+  <g transform="translate(230 90) rotate(-5 300 220)"><rect x="20" y="20" width="560" height="430" rx="18" fill="#fffaf3" stroke="#263c37" stroke-width="8"/><path d="M90 130h360M90 205h410M90 280h290M90 355h360" stroke="#8aa79f" stroke-width="12" stroke-linecap="round"/></g>
+  <g fill="#e16d57"><path d="m870 110 18 48 50 18-50 18-18 48-18-48-50-18 50-18z"/><circle cx="975" cy="300" r="22"/></g>
+  <path d="M785 390c80-72 156-30 226 44" fill="none" stroke="#365b88" stroke-width="12" stroke-dasharray="18 16" stroke-linecap="round"/>
+</svg>

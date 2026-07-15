@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" role="img" aria-labelledby="title desc">
+  <title id="title">张量形状概念图</title><desc id="desc">多个错位矩形与维度标记组成的原创图形</desc>
+  <rect width="1200" height="640" fill="#e4e5ec"/><g fill="none" stroke="#263a67" stroke-width="9"><rect x="178" y="196" width="370" height="260"/><rect x="228" y="146" width="370" height="260"/><rect x="278" y="96" width="370" height="260"/></g>
+  <path d="M720 320h300m-42-42 42 42-42 42" stroke="#cf5c46" stroke-width="12" fill="none"/><text x="744" y="264" fill="#263a67" font-family="system-ui" font-size="40">[B, D] → [B, O]</text>
+  <text x="88" y="560" fill="#263a67" font-family="system-ui" font-size="38">SHAPE BOOKKEEPING / DEMO NOTE</text>
+</svg>

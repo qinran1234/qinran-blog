@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" role="img" aria-labelledby="title desc">
+  <title id="title">微型视觉实验封面</title><desc id="desc">相机取景框、像素和实验节点组成的原创插画</desc>
+  <rect width="1200" height="640" fill="#dfe9f3"/>
+  <g transform="translate(150 100)"><rect width="540" height="420" rx="26" fill="#f9fbfd" stroke="#263c37" stroke-width="9"/><circle cx="270" cy="210" r="125" fill="#d9eee6" stroke="#16776b" stroke-width="14"/><circle cx="270" cy="210" r="48" fill="#263c37"/><rect x="64" y="58" width="95" height="36" rx="18" fill="#e16d57"/></g>
+  <g transform="translate(780 130)" fill="#16776b"><rect width="80" height="80"/><rect x="110" y="55" width="80" height="80" opacity=".7"/><rect x="220" y="110" width="80" height="80" opacity=".4"/></g>
+  <path d="M756 420h330m-48-45 48 45-48 45" fill="none" stroke="#e16d57" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" role="img" aria-labelledby="title desc">
+  <title id="title">训练流水线骨架图</title><desc id="desc">四个模块由实线连接成的原创流程图</desc>
+  <rect width="1200" height="640" fill="#e8e4db"/><path d="M150 320h900" stroke="#213b35" stroke-width="10"/><g fill="#f8f5ef" stroke="#176b62" stroke-width="10"><circle cx="180" cy="320" r="86"/><circle cx="460" cy="320" r="86"/><circle cx="740" cy="320" r="86"/><circle cx="1020" cy="320" r="86"/></g>
+  <g fill="#213b35" font-family="system-ui" font-size="28" text-anchor="middle"><text x="180" y="330">CONFIG</text><text x="460" y="330">TRAIN</text><text x="740" y="330">CHECK</text><text x="1020" y="330">RECORD</text></g>
+  <text x="86" y="558" fill="#213b35" font-family="system-ui" font-size="38">REPRODUCIBLE PIPELINE / DEMO</text>
+</svg>

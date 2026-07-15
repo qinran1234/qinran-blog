@@ -1,0 +1,28 @@
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# local files
+.DS_Store
+*.pem
+.env*
+!.env.example
+
+# debug
+npm-debug.log*
+pnpm-debug.log*
+
+# typescript
+*.tsbuildinfo
+
+# local design references (separate repositories)
+/mx-space/
+
+# local implementation notes
+/CODEX_TASK.md

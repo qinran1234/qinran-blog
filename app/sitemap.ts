@@ -1,0 +1,15 @@
+import type { MetadataRoute } from "next";
+import { getAllContent } from "@/lib/content";
+import { siteConfig } from "@/lib/site";
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  const staticRoutes = ["", "/blog", "/research-trail", "/experiments", "/notes", "/engineering", "/projects", "/friends", "/about"];
+  const contentRoutes = ([...getAllContent("blog"), ...getAllContent("experiments"), ...getAllContent("notes")]).map((entry) => ({
+    url: `${siteConfig.url}/${entry.collection}/${entry.slug}`,
+    lastModified: new Date(`${entry.date}T00:00:00Z`),
+  }));
+  return [
+    ...staticRoutes.map((route) => ({ url: `${siteConfig.url}${route}`, lastModified: new Date() })),
+    ...contentRoutes,
+  ];
+}

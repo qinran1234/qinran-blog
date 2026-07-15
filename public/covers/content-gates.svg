@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" role="img" aria-labelledby="title desc">
+  <title id="title">公开内容门禁图</title><desc id="desc">检查线、门框与公开出口组成的原创抽象图形</desc>
+  <rect width="1200" height="640" fill="#e6e3e9"/><g fill="none" stroke-width="12"><path d="M114 144h522v352H114z" stroke="#29354d"/><path d="m180 250 34 34 68-84m-102 190 34 34 68-84" stroke="#147064"/><path d="M636 320h360m-42-42 42 42-42 42" stroke="#d45d45"/></g>
+  <text x="722" y="260" fill="#29354d" font-family="system-ui" font-size="38">PUBLIC</text><text x="114" y="568" fill="#29354d" font-family="system-ui" font-size="38">QUALITY GATES / DEMO</text>
+</svg>

@@ -1,0 +1,28 @@
+[Unit]
+Description=qinran personal blog (Next.js)
+Documentation=https://github.com/your-handle/qinran-blog
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=qinran-blog
+Group=qinran-blog
+WorkingDirectory=/opt/qinran-blog
+Environment=NODE_ENV=production
+Environment=HOSTNAME=127.0.0.1
+Environment=PORT=3000
+ExecStart=/usr/bin/npm run start -- -H 127.0.0.1 -p 3000
+Restart=on-failure
+RestartSec=5s
+TimeoutStopSec=20s
+KillSignal=SIGINT
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=full
+ReadWritePaths=/opt/qinran-blog/.next
+
+[Install]
+WantedBy=multi-user.target
