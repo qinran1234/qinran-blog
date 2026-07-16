@@ -1,0 +1,55 @@
+name: Deploy Static Site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: static-production-deploy
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_SITE_URL: https://kiran-ovo.me
+      DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+      DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+      DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+      DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
+      - run: tar -C out -czf site.tar.gz .
+
+      - name: Configure deployment SSH key
+        run: |
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/id_ed25519
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/id_ed25519 ~/.ssh/known_hosts
+
+      - name: Upload and activate release
+        run: |
+          scp -i ~/.ssh/id_ed25519 site.tar.gz "$DEPLOY_USER@$DEPLOY_HOST:/srv/kiran-blog/releases/$GITHUB_SHA.tar.gz"
+          ssh -i ~/.ssh/id_ed25519 "$DEPLOY_USER@$DEPLOY_HOST" "\
+            set -eu; \
+            release_dir=/srv/kiran-blog/releases/$GITHUB_SHA; \
+            mkdir -p \"\$release_dir\"; \
+            tar -xzf /srv/kiran-blog/releases/$GITHUB_SHA.tar.gz -C \"\$release_dir\"; \
+            rm /srv/kiran-blog/releases/$GITHUB_SHA.tar.gz; \
+            ln -sfn \"\$release_dir\" /srv/kiran-blog/current; \
+            find /srv/kiran-blog/releases -mindepth 1 -maxdepth 1 -type d -printf '%T@ %p\\n' | sort -nr | tail -n +6 | cut -d' ' -f2- | xargs -r rm -rf"
