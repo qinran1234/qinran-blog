@@ -20,7 +20,7 @@ jobs:
       DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
       DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
       DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
-      DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+      DEPLOY_HOST_FINGERPRINT: ${{ secrets.DEPLOY_HOST_FINGERPRINT }}
 
     steps:
       - uses: actions/checkout@v4
@@ -39,7 +39,11 @@ jobs:
         run: |
           install -d -m 700 ~/.ssh
           printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/id_ed25519
-          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          actual_host_key="$(ssh-keyscan -T 10 -t ed25519 "$DEPLOY_HOST" 2>/dev/null)"
+          actual_fingerprint="$(printf '%s\n' "$actual_host_key" | ssh-keygen -lf - -E sha256 | awk '{print $2}')"
+          test -n "$actual_host_key"
+          test "$actual_fingerprint" = "$DEPLOY_HOST_FINGERPRINT"
+          printf '%s\n' "$actual_host_key" > ~/.ssh/known_hosts
           chmod 600 ~/.ssh/id_ed25519 ~/.ssh/known_hosts
 
       - name: Upload and activate release
