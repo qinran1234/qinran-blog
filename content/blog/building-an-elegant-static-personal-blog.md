@@ -1,6 +1,6 @@
 ---
-title: "如何“优雅”地搭建一个静态个人博客"
-description: "从一个念头开始，用 Next.js、Markdown、GitHub Actions、ECS 和 Caddy 从零搭建可自动发布的静态个人博客。"
+title: "如何搭建可自动发布的静态站点"
+description: "从一个想法开始，用 Next.js、Markdown、GitHub Actions、ECS 和 Caddy 从零搭建可自动发布的静态内容站点。"
 date: "2026-07-16"
 tags:
   - Next.js
