@@ -1,204 +1,87 @@
-# Ubuntu Server Deployment
+# Static Site Deployment
 
-This deployment does not use Docker. Next.js runs directly under Node.js, `systemd` keeps the process alive, and Caddy provides HTTPS and reverse proxying.
+The production site is a static export. GitHub Actions builds `out/`, uploads an immutable release to the ECS server, and Caddy serves the active release. The server never runs `npm`, Next.js, or a Git checkout.
 
 ```text
-Internet :80/:443
-        -> Caddy
-        -> 127.0.0.1:3000
-        -> Next.js production server
+push main
+  -> GitHub Actions: npm ci / lint / next build
+  -> SCP: /srv/kiran-blog/releases/<commit>.tar.gz
+  -> SSH: unpack and switch /srv/kiran-blog/current
+  -> Caddy: serve static files
 ```
 
 ## Requirements
 
-- Ubuntu 24.04 LTS
-- 1 vCPU, 2 GB RAM, and 20 GB disk recommended
-- A domain with an `A` record pointing to the server IPv4 address
-- SSH key access
-- Ports 80 and 443 open
-- Node.js 22 LTS or newer
+- Ubuntu 24.04 LTS server
+- DNS records for `kiran-ovo.me` and `www` pointing to the server
+- Ports 80 and 443 open in both UFW and the cloud security group
+- GitHub Actions repository secrets
 
-## 1. Prepare Ubuntu
-
-Allow SSH before enabling the firewall:
+The server only needs Caddy, OpenSSH and basic archive tools:
 
 ```bash
 sudo apt update
-sudo apt install -y git curl ca-certificates caddy
-
+sudo apt install -y caddy openssh-server tar
 sudo ufw allow OpenSSH
 sudo ufw allow 80/tcp
 sudo ufw allow 443/tcp
 sudo ufw enable
 ```
 
-Install Node.js 22 from NodeSource after reviewing the downloaded setup script:
+## Prepare the release host
+
+Run the checked-in host setup script as root:
 
 ```bash
-curl -fsSL https://deb.nodesource.com/setup_22.x -o /tmp/nodesource_setup.sh
-less /tmp/nodesource_setup.sh
-sudo -E bash /tmp/nodesource_setup.sh
-sudo apt install -y nodejs
-
-node --version
-npm --version
+sudo bash deploy/prepare-static-host.sh
 ```
 
-Create a dedicated account. It has no interactive shell and owns only the application directory:
+It creates the `site-deploy` account and these directories:
+
+```text
+/srv/kiran-blog/releases/
+/srv/kiran-blog/current -> active release
+```
+
+Install the repository Caddy configuration:
 
 ```bash
-sudo useradd --system --home /opt/qinran-blog --shell /usr/sbin/nologin qinran-blog
-sudo mkdir -p /opt/qinran-blog
-sudo chown qinran-blog:qinran-blog /opt/qinran-blog
-```
-
-## 2. Clone and build
-
-For a public GitHub repository:
-
-```bash
-sudo -u qinran-blog git clone <YOUR_GITHUB_REPOSITORY_URL> /opt/qinran-blog
-cd /opt/qinran-blog
-sudo -u qinran-blog cp .env.example .env.production
-sudo -u qinran-blog nano .env.production
-```
-
-Set the final public URL:
-
-```dotenv
-NEXT_PUBLIC_SITE_URL=https://blog.example.com
-```
-
-Install exactly the locked dependencies and build:
-
-```bash
-cd /opt/qinran-blog
-sudo -u qinran-blog npm ci
-sudo -u qinran-blog npm run build
-```
-
-## 3. Install the systemd service
-
-```bash
-sudo cp /opt/qinran-blog/deploy/qinran-blog.service /etc/systemd/system/qinran-blog.service
-sudo systemctl daemon-reload
-sudo systemctl enable --now qinran-blog
-sudo systemctl status qinran-blog --no-pager
-```
-
-Verify Next.js locally on the server before configuring the domain:
-
-```bash
-curl -I http://127.0.0.1:3000
-```
-
-The port is bound to loopback only and is not exposed publicly.
-
-## 4. Configure Caddy and HTTPS
-
-Edit the checked-in `Caddyfile` and replace `blog.example.com` with the real domain. Then install it:
-
-```bash
-sudo cp /opt/qinran-blog/Caddyfile /etc/caddy/Caddyfile
+sudo cp Caddyfile /etc/caddy/Caddyfile
 sudo caddy validate --config /etc/caddy/Caddyfile
 sudo systemctl reload caddy
+```
+
+Caddy obtains and renews HTTPS certificates after DNS is live. Before ICP filing is complete, keep public domain traffic disabled and use the IP only for internal testing.
+
+## Configure GitHub Actions
+
+In `Settings -> Secrets and variables -> Actions`, create:
+
+```text
+DEPLOY_HOST              # ECS public IPv4 or hostname
+DEPLOY_USER              # site-deploy
+DEPLOY_SSH_KEY           # private deployment key
+DEPLOY_HOST_FINGERPRINT  # SHA256 fingerprint of the ECS ed25519 host key
+```
+
+The deployment public key must be in `/srv/site-deploy/.ssh/authorized_keys`. The workflow pins the server host-key fingerprint before uploading; do not disable this verification.
+
+Push to `main`, or run `Deploy Static Site` manually from the Actions tab. A successful run creates a new directory under `releases/`, atomically updates `current`, and retains the five newest releases.
+
+## Verify and recover
+
+```bash
+curl -I https://kiran-ovo.me
+curl -I https://kiran-ovo.me/algorithms/
 sudo systemctl status caddy --no-pager
+sudo journalctl -u caddy -n 100 --no-pager
 ```
 
-Caddy obtains and renews the TLS certificate automatically. DNS must already point to the server, and ports 80/443 must be reachable.
-
-## 5. Verify the public site
+To roll back, point `current` to a retained release and reload Caddy:
 
 ```bash
-curl -I https://blog.example.com
-curl -I https://blog.example.com/blog
-curl -I https://blog.example.com/research-trail
-curl -I https://blog.example.com/sitemap.xml
+sudo ln -sfn /srv/kiran-blog/releases/<COMMIT_SHA> /srv/kiran-blog/current
+sudo systemctl reload caddy
 ```
 
-Also check the mobile layout, theme switch, article filters, project links, and friend links in a real browser.
-
-## Update
-
-```bash
-cd /opt/qinran-blog
-sudo -u qinran-blog git pull --ff-only
-sudo -u qinran-blog npm ci
-sudo -u qinran-blog npm run build
-sudo systemctl restart qinran-blog
-sudo systemctl status qinran-blog --no-pager
-```
-
-The restart usually causes only a short interruption. For zero-downtime deployment, add a second application instance and have Caddy balance between them; that is unnecessary for an initial personal blog.
-
-## Rollback
-
-Record the current commit before updating:
-
-```bash
-cd /opt/qinran-blog
-sudo -u qinran-blog git rev-parse HEAD
-```
-
-Return to a known stable commit and rebuild:
-
-```bash
-sudo -u qinran-blog git checkout <STABLE_COMMIT_SHA>
-sudo -u qinran-blog npm ci
-sudo -u qinran-blog npm run build
-sudo systemctl restart qinran-blog
-```
-
-Return to the main branch before the next normal update:
-
-```bash
-sudo -u qinran-blog git switch main
-```
-
-## Logs and operations
-
-```bash
-# Follow application logs
-sudo journalctl -u qinran-blog -f
-
-# Follow Caddy logs
-sudo journalctl -u caddy -f
-
-# Restart the application
-sudo systemctl restart qinran-blog
-
-# Stop or start the application
-sudo systemctl stop qinran-blog
-sudo systemctl start qinran-blog
-
-# Check listening ports
-sudo ss -lntp | grep -E ':80|:443|:3000'
-```
-
-## Troubleshooting
-
-### The service fails to start
-
-```bash
-sudo systemctl status qinran-blog --no-pager
-sudo journalctl -u qinran-blog -n 100 --no-pager
-sudo -u qinran-blog test -f /opt/qinran-blog/.next/BUILD_ID
-```
-
-Confirm `/usr/bin/node` and `/usr/bin/npm` exist. If Node was installed elsewhere, update `ExecStart` in `/etc/systemd/system/qinran-blog.service`, then run `sudo systemctl daemon-reload`.
-
-### Caddy cannot obtain a certificate
-
-- Confirm the domain `A` record points to this server.
-- Confirm ports 80 and 443 are open in both UFW and the cloud firewall/security group.
-- Confirm the Caddyfile contains only the domain, without `https://` or a path.
-- Read `sudo journalctl -u caddy -n 100 --no-pager`.
-
-### Metadata uses the wrong domain
-
-Update `/opt/qinran-blog/.env.production`, rebuild, and restart:
-
-```bash
-sudo -u qinran-blog npm run build
-sudo systemctl restart qinran-blog
-```
+No application restart is required because Caddy serves the files directly.

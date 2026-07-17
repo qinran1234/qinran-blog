@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     siteName: siteConfig.name,
   },
-  icons: { icon: "/icon.svg" },
+  icons: { icon: "/favicon.png" },
 };
 
 const themeScript = `

@@ -44,7 +44,7 @@ export function BlogBrowser({ posts }: { posts: ContentMeta[] }) {
                 <Image src={post.cover} alt="" width={1200} height={640} sizes="(max-width: 760px) 100vw, 360px" priority={index === 0} />
               </Link>
               <div className="blog-row-copy">
-                <div className="blog-row-meta"><time dateTime={post.date}>{formatDate(post.date)}</time><span>{post.readingTime} 分钟</span></div>
+                <div className="blog-row-meta"><time dateTime={post.date}>{formatDate(post.date)}</time></div>
                 <h2><Link href={`/blog/${post.slug}`}>{post.title}</Link></h2>
                 <p>{post.description}</p>
                 <div className="blog-row-bottom"><div className="tag-row">{post.tags.map((tag) => <span key={tag}>{tag}</span>)}</div><Link href={`/blog/${post.slug}`} className="round-arrow" aria-label={`阅读 ${post.title}`}><ArrowUpRight size={18} /></Link></div>

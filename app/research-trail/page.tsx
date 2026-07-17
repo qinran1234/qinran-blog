@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { ArrowUpRight, CheckCircle2, CircleDotDashed, ListChecks, RefreshCw } from "lucide-react";
+import { ArrowUpRight, CalendarDays, CheckCircle2, CircleDotDashed, ListChecks, RefreshCw } from "lucide-react";
 import Link from "next/link";
 import { StatusBadge } from "@/components/status-badge";
 import { researchLoop, researchReadiness, weeklyRhythm } from "@/data/research-practice";
 import { researchTrail } from "@/data/research-trail";
+import { formatDate } from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "研究路线",
@@ -11,6 +12,11 @@ export const metadata: Metadata = {
 };
 
 export default function ResearchTrailPage() {
+  const currentStage = researchTrail.find((stage) => stage.status === "Current") ?? researchTrail[0];
+  const completedCount = researchTrail.filter((stage) => stage.status === "Completed").length;
+  const nextCount = researchTrail.filter((stage) => stage.status === "Next").length;
+  const progress = Math.round((completedCount / researchTrail.length) * 100);
+
   return (
     <main className="page-shell shell">
       <header className="page-header">
@@ -20,11 +26,12 @@ export default function ResearchTrailPage() {
       </header>
       <div className="trail-layout">
         <aside className="trail-aside">
-          <span className="aside-index">A</span>
+          <span className="aside-index">{currentStage.index}</span>
           <p>CURRENT STAGE</p>
-          <strong>基础复苏</strong>
-          <div className="progress-track"><i /></div>
-          <small>0 completed · 1 current · 4 next</small>
+          <strong>{currentStage.title}</strong>
+          <div className="progress-track"><i style={{ width: `${progress}%` }} /></div>
+          <small>{completedCount} completed · 1 current · {nextCount} next</small>
+          <time className="trail-aside-date" dateTime={currentStage.updatedAt}>更新于 {formatDate(currentStage.updatedAt)}</time>
         </aside>
         <ol className="trail-list">
           {researchTrail.map((stage) => (
@@ -32,7 +39,11 @@ export default function ResearchTrailPage() {
               <div className="trail-marker"><span>{stage.index}</span></div>
               <div className="trail-card">
                 <div className="trail-card-heading">
-                  <h2>{stage.title}</h2><StatusBadge status={stage.status} />
+                  <div>
+                    <h2>{stage.title}</h2>
+                    <time className="trail-stage-date" dateTime={stage.updatedAt}><CalendarDays size={13} /> 更新于 {formatDate(stage.updatedAt)}</time>
+                  </div>
+                  <StatusBadge status={stage.status} />
                 </div>
                 <p>{stage.summary}</p>
                 <div className="trail-outcome">

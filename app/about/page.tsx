@@ -19,7 +19,7 @@ export default function AboutPage() {
         <div className="eyebrow">ABOUT / HALF-PAGE UNIVERSE</div>
         <h1>你好，我是 qinran。<br />这里是我的半页宇宙。</h1>
         <p>这是一间以文章为主的个人 Blog。这里写技术、研究、工具和日常，也保留一条从基础学习走向可复现实验的长期支线。</p>
-        <div className="about-spark"><Sparkles size={22} /><span>本站身份、邮箱与项目链接目前仍使用可替换占位信息。</span></div>
+        <div className="about-spark"><Sparkles size={22} /><span>从 2026 年 7 月 15 日开始，慢慢把学到的、做过的和想清楚的写下来。</span></div>
       </header>
 
       <section className="about-statement">

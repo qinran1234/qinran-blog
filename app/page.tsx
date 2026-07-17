@@ -1,4 +1,4 @@
-import { ArrowRight, AtSign, BookOpen, CalendarDays, Code2, FileText, FlaskConical, Heart, Mail, Orbit, Sigma, Video } from "lucide-react";
+import { ArrowRight, AtSign, BookOpen, CalendarDays, Code2, FileText, FlaskConical, Heart, Orbit, Sigma, Video } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { BlogMascot } from "@/components/blog-mascot";
@@ -31,9 +31,9 @@ export default function Home() {
       <section className="personal-hero">
         <div className="shell personal-hero-grid">
           <div className="personal-hero-copy">
-            <div className="eyebrow"><span /> 半页宇宙 / PERSONAL BLOG</div>
-            <h1>qinran</h1>
-            <p className="hero-lead">你好，我是 qinran。写代码、读论文，也记录偶尔跑偏的灵感，这里是我的个人 Blog 与学习档案。</p>
+            <div className="eyebrow"><span /> HALF-PAGE UNIVERSE</div>
+            <h1>半页宇宙</h1>
+            <p className="hero-lead">记录代码、阅读、实验与仍在延伸的学习轨迹。</p>
             <div className="now-pill"><i /> 当前阶段：Python、数学与 ML 基础复苏</div>
             <div className="hero-actions">
               <Link href="/blog" className="button primary">读最新文章 <ArrowRight size={18} /></Link>
@@ -42,7 +42,6 @@ export default function Home() {
             <div className="hero-utility social-links" aria-label="qinran 的社交链接">
               <a href={siteConfig.social.github} target="_blank" rel="noreferrer"><Code2 size={17} /> GitHub</a>
               <a href={siteConfig.social.qqMail}><AtSign size={17} /> QQ邮箱</a>
-              <a href={siteConfig.social.email}><Mail size={17} /> 邮箱</a>
               <a href={siteConfig.social.bilibili} target="_blank" rel="noreferrer"><Video size={17} /> B站主页</a>
             </div>
           </div>
@@ -53,7 +52,7 @@ export default function Home() {
       <section className="site-stats-band" aria-label="站点统计">
         <div className="shell site-stats-grid">
           <div className="stats-intro"><span>SITE LOG</span><strong>一些缓慢增长的数字</strong></div>
-          <div className="stat-item"><CalendarDays size={20} /><span><small>建站时间</small><strong>{siteDays}</strong><em>天</em></span></div>
+          <div className="stat-item"><CalendarDays size={20} /><span><small>建站于 {formatDate(siteConfig.establishedAt)}</small><strong>{siteDays}</strong><em>天</em></span></div>
           <div className="stat-item"><FileText size={20} /><span><small>公开文章</small><strong>{posts.length}</strong><em>篇</em></span></div>
           <div className="stat-item"><Sigma size={20} /><span><small>累计字数</small><strong>{totalWords.toLocaleString("zh-CN")}</strong><em>字</em></span></div>
         </div>
@@ -68,11 +67,11 @@ export default function Home() {
           <div className="featured-post-layout">
             <article className="featured-post">
               <Link href={`/blog/${featured.slug}`} className="featured-cover"><Image src={featured.cover} alt={`${featured.title} 的原创封面`} width={1200} height={640} priority /></Link>
-              <div className="featured-copy"><div className="blog-row-meta"><span>FEATURED</span><time dateTime={featured.date}>{formatDate(featured.date)}</time><span>{featured.readingTime} 分钟</span></div><h3><Link href={`/blog/${featured.slug}`}>{featured.title}</Link></h3><p>{featured.description}</p><Link href={`/blog/${featured.slug}`} className="text-link">继续阅读 <ArrowRight size={16} /></Link></div>
+              <div className="featured-copy"><div className="blog-row-meta"><span>FEATURED</span><time dateTime={featured.date}>{formatDate(featured.date)}</time></div><h3><Link href={`/blog/${featured.slug}`}>{featured.title}</Link></h3><p>{featured.description}</p><Link href={`/blog/${featured.slug}`} className="text-link">继续阅读 <ArrowRight size={16} /></Link></div>
             </article>
             <div className="recent-post-stack">
               {morePosts.slice(0, 2).map((post, index) => (
-                <article key={post.slug}><span className="post-stack-index">0{index + 2}</span><div><div className="blog-row-meta"><time dateTime={post.date}>{formatDate(post.date)}</time><span>{post.readingTime} 分钟</span></div><h3><Link href={`/blog/${post.slug}`}>{post.title}</Link></h3><p>{post.description}</p><div className="tag-row">{post.tags.map((tag) => <span key={tag}>{tag}</span>)}</div></div></article>
+                <article key={post.slug}><span className="post-stack-index">0{index + 2}</span><div><div className="blog-row-meta"><time dateTime={post.date}>{formatDate(post.date)}</time></div><h3><Link href={`/blog/${post.slug}`}>{post.title}</Link></h3><p>{post.description}</p><div className="tag-row">{post.tags.map((tag) => <span key={tag}>{tag}</span>)}</div></div></article>
               ))}
               <Link href="/blog" className="all-posts-link">查看全部文章 <ArrowRight size={17} /></Link>
             </div>

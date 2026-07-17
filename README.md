@@ -1,126 +1,242 @@
 # 半页宇宙 · Personal Blog
 
-一个基于 Next.js App Router 的个人 Blog。文章是主入口，同时保留经过筛选的学习路线、匿名实验、公开概念笔记、项目导航和友链区域。
+[半页宇宙](https://kiran-ovo.me) 是 qinran 的个人博客，记录代码、学习、项目与偶尔跑偏的灵感。内容以 Markdown 保存在仓库中，构建后发布为静态站点。
 
-当前仓库中的文章、实验结果、项目和友链均包含明确标记的 Demo content，用于验证内容系统和页面能力。上线前需要替换身份、邮箱、项目地址与友链数据。
+## 技术与发布
 
-## 技术栈
+- Next.js 16、React 19、TypeScript、Tailwind CSS 4
+- 本地 Markdown + YAML frontmatter；Zod 负责元数据校验
+- React Markdown + GitHub Flavored Markdown 渲染正文
+- GitHub Actions 构建静态文件，并发布到 ECS；Caddy 提供 HTTP/HTTPS
 
-- Next.js 16 + React 19 + TypeScript
-- Tailwind CSS 4
-- 本地 Markdown + YAML frontmatter
-- Zod 内容元数据校验
-- React Markdown + GitHub Flavored Markdown
+发布链路：
 
-## 本地启动
-
-建议使用 Node.js 24.15 或更新的 LTS 版本，以及随 Node 提供的 npm。
-
-```bash
-npm install
-npm run dev
+```text
+push main
+  -> GitHub Actions: npm ci / lint / build
+  -> 上传 out/ 静态文件到 ECS
+  -> Caddy 提供当前发布版本
 ```
 
-浏览器访问 [http://localhost:3000](http://localhost:3000)。
+生产环境不需要数据库、CMS、服务端密钥或在 ECS 上执行 `npm install`。
 
-如果依赖没有变化，可以使用锁文件进行确定性安装：
+## 本地开发
+
+需要 Node.js 22 或更高版本。
 
 ```bash
 npm ci
+npm run dev
 ```
 
-## 检查与构建
+打开 [http://localhost:3000](http://localhost:3000)。提交前执行：
 
 ```bash
 npm run lint
 npm run build
-npm run start
 ```
 
-`npm run start` 需要先完成 `npm run build`，默认在 `http://localhost:3000` 提供生产构建。
+`npm run build` 会生成 `out/` 静态目录；静态导出限制了依赖运行时服务端能力的方案，例如 API Route、Server Actions 和按请求生成的动态页面。
 
-## 内容目录
+## 内容结构
 
 ```text
 content/
-├─ blog/          # 个人文章与随笔
-├─ experiments/   # 学习与科研实验记录
-├─ notes/         # 公开阅读与概念笔记
-└─ engineering/   # 脱敏工程补充
+├─ blog/          # 文章、随笔与项目复盘
+├─ experiments/   # 可复现实验记录
+├─ notes/         # 概念、论文与阅读笔记
+└─ engineering/   # 脱敏后的工程记录
+public/covers/    # 文章封面
 ```
 
-站点只读取以上仓库内目录。内容读取逻辑位于 `lib/content.ts`，会执行 frontmatter 校验、按日期排序，并自动过滤 `draft: true` 的文件。
-
-每篇内容至少包含以下 frontmatter：
+新建文件使用英文 kebab-case slug，例如 `content/blog/my-first-post.md`。所有公开内容都必须有完整 frontmatter：
 
 ```yaml
 ---
-title: "标题"
-description: "简短说明"
-date: "2026-07-15"
+title: "文章标题"
+description: "一句话说明文章解决的问题或提供的价值"
+date: "2026-07-16"
 tags:
-  - PyTorch
-status: "Planned"
+  - Python
+status: "Published"
 draft: false
-cover: "/covers/example.svg"
+cover: "/covers/my-first-post.svg"
 ---
 ```
 
-## 新增文章
+- `draft: true` 的文件不会出现在页面或 sitemap 中。
+- `date` 使用 `YYYY-MM-DD`，不预填未来日期。
+- `cover` 使用仓库内的 `/covers/...` 路径；没有合适封面时，先新建草稿，不使用无关图片。
+- 不发布私人笔记、密钥、账号信息、未脱敏日志或未经许可的第三方材料。
 
-1. 在 `content/blog/` 新建以英文 slug 命名的 `.md` 文件，例如 `my-first-post.md`。
-2. 填写完整 frontmatter，并把原创封面放到 `public/covers/`。
-3. `tags` 会自动成为 `/blog` 的筛选项；标题、摘要和标签均可搜索。
-4. 将 `draft` 设为 `false` 后，文章会进入列表、首页和 sitemap。
-5. 详情路由会自动生成为 `/blog/my-first-post`。
+## Markdown 写作规范
 
-## 新增实验
+### 通用文章
 
-1. 在 `content/experiments/` 新建以英文 slug 命名的 `.md` 文件，例如 `small-cnn-ablation.md`。
-2. 填写完整 frontmatter，并将封面放到 `public/covers/`。
-3. 正文建议依次说明研究问题、设置、方法、结果、复现信息和下一步。
-4. 没有真实运行结果时，必须使用 `Demo content`、`尚未运行` 等明确说明，不能填写虚构指标。
-5. 运行 `npm run lint` 和 `npm run build`；详情路由会自动生成为 `/experiments/small-cnn-ablation`。
+适合博客文章、技术复盘和项目记录。先写结论与背景，再给出过程和可复用的信息。
 
-## 新增笔记
+```md
+---
+title: "标题"
+description: "摘要"
+date: "2026-07-16"
+tags: ["Tag A", "Tag B"]
+status: "Published"
+draft: false
+cover: "/covers/slug.svg"
+---
 
-1. 在 `content/notes/` 新建 `.md` 文件并填写相同 frontmatter。
-2. 使用标签描述概念领域；列表页会自动按年份归档。
-3. 将 `draft` 设为 `false` 后才会出现在列表、首页和 sitemap 中。
-4. 运行本地开发服务，检查正文、代码块、引用和窄屏排版。
+> 一句话结论或适用范围。
 
-## 站点配置
+## 背景与问题
 
-站点名称、昵称和 GitHub、QQ 邮箱、普通邮箱、B站占位链接位于 `lib/site.ts`。上线前请替换为准备公开的信息。
+## 做法
 
-项目导航位于 `data/projects.ts`，友链数据位于 `data/friends.ts`。根目录中的 `mx-space/` 是独立的本地设计参考仓库，已从主项目 Git 和 ESLint 中忽略，不会参与部署。
+## 结果与反思
 
-学习路线由私人 `ResearchVault` 中的路线文档手工提炼到 `data/research-trail.ts`。网站在开发或运行时都不会自动读取、同步或公开该 Vault；每次更新仍需先人工筛选与脱敏。
-
-生产环境建议设置：
-
-```text
-NEXT_PUBLIC_SITE_URL=https://your-domain.example
+## 参考与延伸
+- [资料名称](https://example.com)
 ```
 
-该变量用于 metadata、`sitemap.xml` 和 `robots.txt` 中的绝对 URL，不包含任何密钥。
+### 实验记录
 
-## 部署到 Vercel
+没有真实结果时必须明确写“尚未运行”或“计划中”，不要填写估算指标或伪造表格。实验应让别人能够判断结论是否可信并尝试复现。
 
-1. 将仓库推送到自己的 GitHub、GitLab 或 Bitbucket 私有/公开仓库。
-2. 在 Vercel 中选择 **New Project** 并导入该仓库。
-3. Framework Preset 保持 **Next.js**，Install/Build/Output 使用自动检测值。
-4. 添加 `NEXT_PUBLIC_SITE_URL`，值为最终 Vercel 域名或自定义域名。
-5. 首次部署后检查 `/blog` 搜索筛选、Markdown 详情页、项目与友链外链、`/sitemap.xml` 与移动端导航。
+```md
+---
+title: "实验名称"
+description: "变量、任务与预期观察"
+date: "2026-07-16"
+tags: ["PyTorch", "Experiment"]
+status: "In progress"
+draft: true
+cover: "/covers/experiment.svg"
+---
 
-本项目不需要数据库、CMS、鉴权、外部内容 API 或服务端密钥。不要在 Vercel 环境变量或仓库中加入私人 Vault 路径。
+## 研究问题
 
-## 部署到自己的服务器
+## 数据与设置
+- 数据集与划分：
+- 模型与版本：
+- 随机种子：
+- 计算环境：
 
-仓库提供了 `systemd` 服务文件和自动 HTTPS 的 `Caddyfile`，直接使用 Node.js 运行 Next.js，不需要 Docker。Ubuntu 初始化、DNS、启动、更新、回滚和排错命令见 [DEPLOYMENT.md](./DEPLOYMENT.md)。
+## 方法与变量
 
-服务器部署前至少需要：
+## 结果
+| 设置 | 指标 | 备注 |
+| --- | --- | --- |
 
-- Ubuntu 24.04 LTS 服务器，推荐 1 核 2 GB；
-- 一个已解析到服务器公网 IP 的域名；
-- 根据 `.env.example` 创建的 `.env.production`。
+## 复现信息
+
+## 局限与下一步
+```
+
+### 阅读与概念笔记
+
+将“资料原意”和“自己的理解”分开，引用给出原始链接、作者或论文信息；笔记不应替代原文。
+
+```md
+---
+title: "概念或论文标题"
+description: "这篇笔记试图回答的问题"
+date: "2026-07-16"
+tags: ["Concepts"]
+status: "Public note"
+draft: false
+cover: "/covers/note.svg"
+---
+
+## 原始资料
+
+## 核心概念
+
+## 我的理解
+
+## 最小示例
+
+## 未解决的问题
+```
+
+
+### 算法题解
+
+算法学习以 LeetCode 复盘为主，题解应保留能复用的思维过程。题目内容只摘录必要约束，完整题面链接回 LeetCode；不要复制整段题目描述。
+
+```md
+---
+title: "两数之和：哈希表的一次遍历"
+description: "从暴力枚举到哈希表查找，解释为什么先查再存。"
+date: "2026-07-16"
+tags: ["LeetCode", "Hash Table", "Array"]
+status: "Solved"
+draft: false
+cover: "/covers/two-sum.svg"
+---
+
+## 题目
+- [LeetCode 1. Two Sum](https://leetcode.com/problems/two-sum/)
+- 难度：Easy
+
+## 思路演进
+### 方案一：暴力枚举
+
+### 方案二：哈希表
+
+## 正确性说明
+
+## 复杂度
+- 时间：O(n)
+- 空间：O(n)
+
+## 易错点与变体
+
+## 代码
+```python
+# 保留能独立运行的核心实现
+```
+```
+
+### 日常分享
+
+旅行、毕业典礼和生活记录放在 `content/blog/`。日常文章不需要工程化模板，但应交代时间、地点或事件背景，并避免公开他人的敏感身份与未授权照片。
+
+```md
+---
+title: "毕业典礼那天"
+description: "把一个阶段的结束，写成给未来自己的简短记录。"
+date: "2026-07-16"
+tags: ["日常", "毕业"]
+status: "Published"
+draft: false
+cover: "/covers/graduation.svg"
+---
+
+## 那天发生了什么
+
+## 想记住的片段
+
+## 留给以后的一句话
+```
+## 站点资料
+
+公共资料统一维护在 `lib/site.ts`：GitHub、QQ 邮箱和 B 站主页。项目清单维护在 `data/projects.ts`，按“个人项目”和“课程实践”展示。添加复现或改进项目时，需在说明里写清原项目来源、自己的改动和当前完成度。
+
+`NEXT_PUBLIC_SITE_URL` 用于 sitemap、robots 与 metadata 的绝对 URL。生产环境设置为：
+
+```text
+NEXT_PUBLIC_SITE_URL=https://kiran-ovo.me
+```
+
+## 部署
+
+工作流位于 `.github/workflows/deploy-static.yml`。它需要以下 GitHub Actions Secrets：
+
+```text
+DEPLOY_HOST
+DEPLOY_USER
+DEPLOY_SSH_KEY
+DEPLOY_HOST_FINGERPRINT
+```
+
+首次部署和服务器维护见 [DEPLOYMENT.md](./DEPLOYMENT.md)。域名备案完成后，将 `kiran-ovo.me` 和 `www` 的 DNS 解析到 ECS，再将 Caddy 配置切换为域名站点以启用自动 HTTPS。

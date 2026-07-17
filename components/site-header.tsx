@@ -7,7 +7,8 @@ import { useState } from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 const navigation = [
-  { href: "/blog", label: "文章" },
+  { href: "/blog", label: "日常与文章" },
+  { href: "/algorithms", label: "算法题解" },
   { href: "/research-trail", label: "学习与科研" },
   { href: "/projects", label: "项目" },
   { href: "/friends", label: "友链" },

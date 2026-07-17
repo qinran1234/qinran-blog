@@ -5,7 +5,7 @@ import path from "node:path";
 import matter from "gray-matter";
 import { z } from "zod";
 
-export const collections = ["blog", "experiments", "notes", "engineering"] as const;
+export const collections = ["blog", "algorithms", "experiments", "notes", "engineering"] as const;
 export type ContentCollection = (typeof collections)[number];
 
 const frontmatterSchema = z.object({
@@ -21,7 +21,6 @@ const frontmatterSchema = z.object({
 export type ContentMeta = z.infer<typeof frontmatterSchema> & {
   slug: string;
   collection: ContentCollection;
-  readingTime: number;
 };
 
 export type ContentEntry = ContentMeta & {
@@ -39,13 +38,10 @@ function parseEntry(collection: ContentCollection, fileName: string): ContentEnt
   const source = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(source);
   const metadata = frontmatterSchema.parse(data);
-  const wordCount = content.trim().split(/\s+/u).filter(Boolean).length;
-
   return {
     ...metadata,
     slug: fileName.replace(/\.mdx?$/u, ""),
     collection,
-    readingTime: Math.max(1, Math.ceil(wordCount / 220)),
     body: content,
   };
 }
@@ -72,6 +68,7 @@ export function getContentBySlug(
 export function getLatestContent(limit = 3): ContentEntry[] {
   return ([
     ...getAllContent("blog"),
+    ...getAllContent("algorithms"),
     ...getAllContent("experiments"),
     ...getAllContent("notes"),
   ] as ContentEntry[])

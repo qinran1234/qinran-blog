@@ -18,15 +18,15 @@ export default function FriendsPage() {
       <div className="friend-grid">
         {friends.map((friend) => (
           <a className="friend-item" href={friend.url} target="_blank" rel="noreferrer" key={friend.name}>
-            <span className={`friend-avatar ${friend.tone}`}>{friend.initials}</span>
+            <span className={`friend-avatar ${friend.tone}`}>{friend.initials}{friend.avatar && <span className="friend-avatar-image" style={{ backgroundImage: `url("${friend.avatar}")` }} />}</span>
             <span className="friend-copy"><strong>{friend.name}</strong><small>{friend.description}</small></span>
             <ArrowUpRight size={18} />
           </a>
         ))}
       </div>
       <section className="friend-apply">
-        <div><span>FRIEND LINK / DEMO</span><h2>也想交换一扇小窗？</h2><p>来信附上站点名称、地址、头像和一句介绍。当前邮箱仍是占位符，上线前会替换。</p></div>
-        <a className="button primary" href={siteConfig.social.email}><Mail size={18} /> 写封邮件</a>
+        <div><span>FRIEND LINK</span><h2>也想交换一扇小窗？</h2><p>来信附上站点名称、地址、头像和一句介绍。</p></div>
+        <a className="button primary" href={siteConfig.social.qqMail}><Mail size={18} /> 写封邮件</a>
       </section>
     </main>
   );

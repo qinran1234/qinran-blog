@@ -1,4 +1,4 @@
-import { AtSign, Code2, Mail, Video } from "lucide-react";
+import { AtSign, Code2, Video } from "lucide-react";
 import Link from "next/link";
 import { siteConfig } from "@/lib/site";
 
@@ -13,7 +13,6 @@ export function SiteFooter() {
         <div className="footer-links" aria-label="页脚链接">
           <a href={siteConfig.social.github} target="_blank" rel="noreferrer"><Code2 size={17} /> GitHub</a>
           <a href={siteConfig.social.qqMail}><AtSign size={17} /> QQ邮箱</a>
-          <a href={siteConfig.social.email}><Mail size={17} /> 邮箱</a>
           <a href={siteConfig.social.bilibili} target="_blank" rel="noreferrer"><Video size={17} /> B站</a>
           <Link href="/about">关于</Link>
         </div>
