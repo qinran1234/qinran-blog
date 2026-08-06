@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 854" role="img" aria-labelledby="title desc">
+  <title id="title">实习之后，我不再只问哪个 Agent 最强</title>
+  <desc id="desc">一群原创的 AI 小助手在终端竞技场中围绕工作流协作：有人读代码、有人拿工具、有人记录知识，表现不同 Agent harness 的使用体验。</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#111a31"/>
+      <stop offset="0.58" stop-color="#23365c"/>
+      <stop offset="1" stop-color="#50345d"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="50%" cy="43%" r="58%">
+      <stop offset="0" stop-color="#b8d9ff" stop-opacity=".38"/>
+      <stop offset="1" stop-color="#b8d9ff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="desk" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#22314c"/>
+      <stop offset="1" stop-color="#101522"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#050916" flood-opacity=".52"/></filter>
+    <filter id="soft"><feGaussianBlur stdDeviation="16"/></filter>
+  </defs>
+
+  <rect width="1600" height="854" fill="url(#sky)"/>
+  <rect width="1600" height="854" fill="url(#halo)"/>
+  <g fill="#dce8ff" opacity=".55">
+    <circle cx="92" cy="112" r="2"/><circle cx="186" cy="228" r="3"/><circle cx="321" cy="92" r="2"/><circle cx="515" cy="169" r="2"/><circle cx="734" cy="88" r="3"/><circle cx="920" cy="159" r="2"/><circle cx="1145" cy="82" r="3"/><circle cx="1396" cy="167" r="2"/><circle cx="1494" cy="278" r="3"/>
+  </g>
+  <g opacity=".18" stroke="#b9d7ff" stroke-width="2">
+    <path d="M105 330H370L470 251H713L822 330H1060L1178 235H1465" fill="none"/>
+    <path d="M250 390L418 322M610 322L745 390M1005 390L1178 322"/>
+    <circle cx="370" cy="330" r="7" fill="#b9d7ff"/><circle cx="822" cy="330" r="7" fill="#b9d7ff"/><circle cx="1178" cy="235" r="7" fill="#b9d7ff"/>
+  </g>
+
+  <ellipse cx="800" cy="655" rx="695" ry="108" fill="#070c1d" opacity=".42" filter="url(#soft)"/>
+  <path d="M0 622C286 582 548 648 802 615c255-33 510-48 798 16v223H0z" fill="url(#desk)"/>
+  <path d="M0 634c309-45 559 32 802-1 286-37 541-36 798 5" fill="none" stroke="#9bc7ee" stroke-opacity=".18" stroke-width="5"/>
+
+  <!-- center terminal -->
+  <g filter="url(#shadow)">
+    <rect x="566" y="248" width="468" height="320" rx="22" fill="#111a2b" stroke="#91c7ff" stroke-width="3"/>
+    <rect x="588" y="276" width="424" height="252" rx="12" fill="#0a1020"/>
+    <circle cx="618" cy="302" r="7" fill="#ff8fa3"/><circle cx="643" cy="302" r="7" fill="#ffd37c"/><circle cx="668" cy="302" r="7" fill="#83e6be"/>
+    <text x="621" y="356" fill="#89ecbd" font-family="ui-monospace, Consolas, monospace" font-size="25">$ choose_harness --task</text>
+    <text x="621" y="397" fill="#c6d7ef" font-family="ui-monospace, Consolas, monospace" font-size="21">context  ✓   tools  ✓</text>
+    <text x="621" y="432" fill="#c6d7ef" font-family="ui-monospace, Consolas, monospace" font-size="21">observe  ✓   steer  ✓</text>
+    <text x="621" y="480" fill="#f6cb88" font-family="ui-monospace, Consolas, monospace" font-size="21">not strongest — just right</text>
+  </g>
+
+  <!-- mascot 1: code -->
+  <g transform="translate(222 408)" filter="url(#shadow)">
+    <path d="M94 38c-31-35-78-22-87 17-8 35 12 79 53 86 44 8 87-24 78-66-3-16-17-30-44-37z" fill="#78b7ff"/>
+    <path d="M26 75c12-47 79-55 105-11" fill="none" stroke="#d8edff" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="59" cy="86" r="7" fill="#14203a"/><circle cx="100" cy="86" r="7" fill="#14203a"/>
+    <path d="M62 111q19 15 38 0" fill="none" stroke="#14203a" stroke-width="5" stroke-linecap="round"/>
+    <path d="M26 132l-35 32 38 16M122 132l35 32-38 16" fill="none" stroke="#d8edff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="24" y="184" width="111" height="38" rx="19" fill="#d8edff"/>
+    <text x="79" y="210" text-anchor="middle" fill="#27496d" font-family="ui-monospace, monospace" font-size="19" font-weight="700">CODE</text>
+  </g>
+
+  <!-- mascot 2: memory -->
+  <g transform="translate(378 505)" filter="url(#shadow)">
+    <path d="M47 21c35-30 90-12 93 36 3 49-44 86-91 61C11 97 9 54 47 21z" fill="#efb36d"/>
+    <path d="M32 63c15-45 77-52 102-11" fill="none" stroke="#fff0c6" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="61" cy="72" r="6" fill="#4a2c37"/><circle cx="103" cy="72" r="6" fill="#4a2c37"/>
+    <path d="M65 97q17 12 34 0" fill="none" stroke="#4a2c37" stroke-width="5" stroke-linecap="round"/>
+    <rect x="20" y="127" width="116" height="38" rx="19" fill="#fff0c6"/>
+    <text x="78" y="153" text-anchor="middle" fill="#704b35" font-family="ui-monospace, monospace" font-size="17" font-weight="700">MEMORY</text>
+  </g>
+
+  <!-- mascot 3: pi -->
+  <g transform="translate(1192 406)" filter="url(#shadow)">
+    <path d="M39 27c42-27 91 3 84 49-6 41-56 66-91 36-35-31-24-66 7-85z" fill="#9be0b0"/>
+    <path d="M23 70c18-42 79-45 105-4" fill="none" stroke="#e3ffea" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="53" cy="79" r="7" fill="#173a35"/><circle cx="95" cy="79" r="7" fill="#173a35"/>
+    <path d="M56 105q18 13 37 0" fill="none" stroke="#173a35" stroke-width="5" stroke-linecap="round"/>
+    <path d="M75 139l-18 51M75 139l25 51M45 145h62" fill="none" stroke="#e3ffea" stroke-width="8" stroke-linecap="round"/>
+    <rect x="19" y="201" width="116" height="38" rx="19" fill="#e3ffea"/>
+    <text x="77" y="227" text-anchor="middle" fill="#26614c" font-family="ui-monospace, monospace" font-size="20" font-weight="700">PI</text>
+  </g>
+
+  <!-- mascot 4: tools -->
+  <g transform="translate(1031 516)" filter="url(#shadow)">
+    <path d="M42 24c41-29 93 2 88 49-5 48-60 71-94 38C1 79 9 47 42 24z" fill="#d5a7f1"/>
+    <path d="M26 68c14-42 76-48 105-8" fill="none" stroke="#f8eaff" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="56" cy="78" r="6" fill="#3d2755"/><circle cx="99" cy="78" r="6" fill="#3d2755"/>
+    <path d="M60 103q18 13 36 0" fill="none" stroke="#3d2755" stroke-width="5" stroke-linecap="round"/>
+    <path d="M38 133l-25 44M114 133l29 44" stroke="#f8eaff" stroke-width="9" stroke-linecap="round"/>
+    <rect x="17" y="186" width="122" height="38" rx="19" fill="#f8eaff"/>
+    <text x="78" y="212" text-anchor="middle" fill="#694983" font-family="ui-monospace, monospace" font-size="17" font-weight="700">TOOLS</text>
+  </g>
+
+  <g fill="none" stroke="#ffd98b" stroke-width="5" stroke-linecap="round" opacity=".88">
+    <path d="M377 500C449 458 500 444 565 435"/><path d="M1034 462c60-20 95-25 157-18"/>
+  </g>
+  <g fill="#ffd98b"><circle cx="376" cy="500" r="8"/><circle cx="565" cy="435" r="8"/><circle cx="1034" cy="462" r="8"/><circle cx="1190" cy="444" r="8"/></g>
+
+  <text x="86" y="105" fill="#f5f0ff" font-family="Georgia, 'Noto Serif SC', serif" font-size="58" letter-spacing="1">实习之后，我不再只问哪个 Agent 最强</text>
+  <text x="90" y="151" fill="#a8c7ed" font-family="ui-monospace, Consolas, monospace" font-size="20" letter-spacing="3">AN INTERNSHIP FIELD NOTE ON AI AGENT HARNESSES</text>
+  <text x="800" y="770" text-anchor="middle" fill="#a8c7ed" font-family="ui-monospace, Consolas, monospace" font-size="19" letter-spacing="3">CONTEXT · TOOLS · OBSERVABILITY · CONTROL</text>
+</svg>
